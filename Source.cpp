@@ -46,6 +46,16 @@ int menu_1()
 	}
 }
 
+int menu_2()
+{
+	std::cout << "Вернуться: Enter\nВыход из прог-мы: Esc\n";
+	while (true)
+	{
+		int key = get_key();
+		if ((key == 13) || (key == 27)) return key;
+	}
+}
+
 void creat_image(double radios, bin_image& A) {
 	for (int i = 0; i < 2 * radios + 2; i++) {
 		for (int j = 0; j < 2 * radios + 2; j++) {
@@ -91,14 +101,22 @@ int main() {
 				case 13:
 					A=!A;
 					while (true) {
-
+						system("cls");
+						std::cout << "Инвертированное изображение:\n";
+						std::cout << A;
+						int m2 = menu_2();
+						if (m2 == 27) return 0;
+						if (m2 == 13) {
+							A = !A;
+							break;
+						}
 					}
 					break;
 				case 49:
-
+					//как делать
 					break;
 				case 50:
-
+					// как делать
 					break;
 				case 51:
 

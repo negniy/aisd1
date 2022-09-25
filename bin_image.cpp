@@ -62,8 +62,12 @@ bin_image& bin_image::operator+(bool a)
 bin_image& bin_image:: operator !() {
 	for (int i = 0; i < length; i++) {
 		for (int j = 0; j < width; j++) {
-			if (data[i][j] == 0) { data[i][j] = 1; }
-			if (data[i][j] == 1) { data[i][j] = 0; }
+			if (data[i][j] == 0) { 
+				data[i][j] = 1; 
+			}
+			else { 
+				data[i][j] = 0;
+			}
 		}
 	}
 	return *this;
