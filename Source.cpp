@@ -113,13 +113,28 @@ int main() {
 					}
 					break;
 				case 49:
-					//как делать
+					//как делать сложить с изобр
 					break;
 				case 50:
-					// как делать
+					// как делать умнож с изобр
 					break;
 				case 51:
-
+					system("cls");
+					std::cout << "Введите булевское значение:(true/false)\n";
+					bool n;
+					std::cin >> n;
+					A=n+A;
+					while (true) {
+						system("cls");
+						std::cout << "Полученное изображение:\n";
+						std::cout << A;
+						int m2 = menu_2();
+						if (m2 == 27) return 0;
+						if (m2 == 13) {
+							A = !A;
+							break;
+						}
+					}
 					break;
 				case 52:
 

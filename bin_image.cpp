@@ -19,44 +19,48 @@ bool& bin_image::operator ()( int str_index, int col_index) const {
 	return a;
 }
 
-bin_image& bin_image::operator *(const bin_image& image) {
-	if (length!=image.length || width != image.width) { throw "Multiplication error"; }
-	for (int i = 0; i < length; i++) {
-		for (int j = 0; j < width; j++) {
-			data[i][j] = (data[i][j] && image.data[i][j]);
-		}
-	}
-	return *this;
-}
-
-bin_image& bin_image:: operator +(const bin_image& image) {
-	if (length != image.length || width != image.width) { throw "Addition error"; }
-	for (int i = 0; i < length; i++) {
-		for (int j = 0; j < width; j++) {
-			data[i][j] = (data[i][j] || image.data[i][j]);
-		}
-	}
-	return *this;
-}
-
-bin_image& bin_image::operator*(bool a)
+bin_image operator+(const bin_image& image_1, const bin_image& image_2)
 {
-	for (int i = 0; i < length; i++) {
-		for (int j = 0; j < width; j++) {
-			data[i][j] = (data[i][j] && a);
+	if (image_1.length != image_2.length || image_1.width != image_2.width) { throw "Addition error"; }
+	bin_image image(image_1.length, image_1.width);
+	for (int i = 0; i < image_1.length; i++) {
+		for (int j = 0; j < image_1.width; j++) {
+			image.data[i][j] = (image_1.data[i][j] || image_2.data[i][j]);
 		}
 	}
-	return *this;
+	return image;
 }
 
-bin_image& bin_image::operator+(bool a)
+bin_image operator*(const bin_image& image_1, const bin_image& image_2)
 {
-	for (int i = 0; i < length; i++) {
-		for (int j = 0; j < width; j++) {
-			data[i][j] = (data[i][j] || a);
+	if (image_1.length != image_2.length || image_1.width != image_2.width) { throw "Addition error"; }
+	bin_image image(image_1.length, image_1.width);
+	for (int i = 0; i < image_1.length; i++) {
+		for (int j = 0; j < image_1.width; j++) {
+			image.data[i][j] = (image_1.data[i][j] && image_2.data[i][j]);
 		}
 	}
-	return *this;
+	return image;
+}
+
+bin_image operator*(bin_image image, bool a)
+{
+	for (int i = 0; i < image.length; i++) {
+		for (int j = 0; j < image.width; j++) {
+			image.data[i][j] = (image.data[i][j] || a);
+		}
+	}
+	return image;
+}
+
+bin_image operator+(bin_image image, bool a)
+{
+	for (int i = 0; i < image.length; i++) {
+		for (int j = 0; j < image.width; j++) {
+			image.data[i][j] = (image.data[i][j] || a);
+		}
+	}
+	return image;
 }
 
 bin_image& bin_image:: operator !() {
