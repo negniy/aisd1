@@ -3,6 +3,7 @@
 bin_image::bin_image(int length, int width): length(length), width(width)
 {
 	if (length < 1 || width < 1) { throw "Incorrect length and width calculations"; }
+	data = new bool*[length];
 	for (int i = 0; i < length; i++) {
 		data[i] = new bool[width];
 		for (int j = 0; j < width; j++) {
@@ -101,8 +102,12 @@ bin_image::bin_image(const bin_image& a){
 
 std::ostream& operator <<(std::ostream& s, const bin_image& image)
 {
-	s << "(";
-	
-	s << ")";
+	for (int i = 0; i < image.length; i++) {
+		for (int j = 0; j < image.width; j++) {
+			if (image.data[i][j] == 0) { s<<" ."; }
+			if (image.data[i][j] == 1) { s << " 1"; }
+		}
+		s << "\n";
+	}
 	return s;
 }
