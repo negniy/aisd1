@@ -18,11 +18,11 @@
 Х оператор ! дл€ инвертировани€ значений изображени€;
 Х вычисление коэффициента заполнени€ изображени€;
 Х перегруженный оператор вывода должен выводить изображение красиво, например, дл€ отображени€ false использовать символ точки . или пробела  , дл€ true Ц какой-нибудь символ (например, 1):
-1...1
-.1.1.
-..1..
-.1.1.
-1...1
+....|.....
+.111|111..
+----|----.
+.111|111..
+....|.....
 
 «адачи:
 Ќарисуйте круг с координатами центра x,y и радиусом r.
@@ -32,13 +32,16 @@ class bin_image
 	friend std::ostream& operator <<(std::ostream& s, const bin_image& image);
 private:
 	bool** data;
-	unsigned int length, width;
+	int length, width;
 public:
-	bin_image(unsigned int length = 3, unsigned int width = 3);
-	char operator ()(unsigned int str_index, unsigned int col_index) const;
+	bin_image( int length = 10, int width = 10);
+	bool& operator ()( int str_index, int col_index) const;
 	bin_image& operator *(const bin_image& image);
 	bin_image& operator +(const bin_image& image);
+	bin_image& operator *( bool a);
+	bin_image& operator +( bool a);
 	bin_image& operator !();
-	unsigned int fill_factor() const;
+	double fill_factor() const;
 	~bin_image();
+	bin_image(const bin_image& a);
 };
