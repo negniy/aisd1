@@ -55,22 +55,46 @@ bin_image operator*(const bin_image& image_1, const bin_image& image_2)//умножен
 
 bin_image operator*(bin_image image, bool a)
 {
+	bin_image tmp(image.length, image.width);
 	for (int i = 0; i < image.length; i++) {
 		for (int j = 0; j < image.width; j++) {
-			image.data[i][j] = (image.data[i][j] || a);
+			tmp.data[i][j] = (image.data[i][j] && a);
 		}
 	}
-	return image;
+	return tmp;
 }
 
 bin_image operator+(bin_image image, bool a)
 {
+	bin_image tmp(image.length, image.width);
 	for (int i = 0; i < image.length; i++) {
 		for (int j = 0; j < image.width; j++) {
-			image.data[i][j] = (image.data[i][j] || a);
+			tmp.data[i][j] = (image.data[i][j] || a);
 		}
 	}
-	return image;
+	return tmp;
+}
+
+bin_image operator*(bool a, bin_image image)
+{
+	bin_image tmp(image.length, image.width);
+	for (int i = 0; i < image.length; i++) {
+		for (int j = 0; j < image.width; j++) {
+			tmp.data[i][j] = (image.data[i][j] && a);
+		}
+	}
+	return tmp;
+}
+
+bin_image operator+(bool a, bin_image image)
+{
+	bin_image tmp(image.length, image.width);
+	for (int i = 0; i < image.length; i++) {
+		for (int j = 0; j < image.width; j++) {
+			tmp.data[i][j] = (image.data[i][j] || a);
+		}
+	}
+	return tmp;
 }
 
 bin_image& bin_image:: operator !() {
@@ -103,6 +127,7 @@ bin_image::~bin_image(){
 	for (int i = 0; i < length; i++) {
 		delete[]data[i];
 	}
+	delete[]data;
 	length = 0;
 	width = 0;
 }
