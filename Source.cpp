@@ -56,8 +56,32 @@ int menu_2()
 	}
 }
 
-void creat_image(double radios, bin_image& A) {
-	for (int i = 0; i < 2 * radios + 2; i++) {
+bin_image& create_image() {
+	std::cout << "\nВведите размеры изображения(длина, ширина)\n";
+	int length, width;
+	std::cin >> length >> width;
+	try {
+		bin_image A(length, width);
+		return A;
+	}
+	catch (const char* message) {
+		std::cout << message;
+		while (true) {
+			std::cout << "\nВведите размеры изображения(длина, ширина)\n";
+			std::cin >> length >> width;
+			try {
+				bin_image A(length, width);
+				return A;
+			}
+			catch (const char* message) {
+				std::cout << message;
+			}
+		}
+	}
+}
+
+void create_circle(double radios, bin_image& A) {
+	for (int i = 0; i < A.; i++) {
 		for (int j = 0; j < 2 * radios + 2; j++) {
 			double a = sqrt(((radios + 1) - i) * ((radios + 1) - i) + ((radios + 1) - j) * ((radios + 1) - j));
 			if (a <= radios) {
@@ -80,6 +104,7 @@ int main() {
 	while(true){
 		system("cls");
 		std::cout << "\nЭто программа по работе с бинарными изображениями окружности\n";
+		bin_image A = create_image();
 		std::cout << "\nВведите радиус и координаты центра(х,у) окружности\n";
 		double R, x, y;
 		std::cin >> R >> x >> y ;
@@ -87,8 +112,7 @@ int main() {
 			std::cout << "Неверный радиус окружности, введите еще раз\n";
 			std::cin >> R;
 		}
-		bin_image A(2*R+2, 2*R+2);
-		creat_image(R, A);
+		create_circle(R, A);
 		while (true) {
 			system("cls");
 			std::cout << A;
@@ -126,7 +150,7 @@ int main() {
 					A=n+A;
 					while (true) {
 						system("cls");
-						std::cout << "Полученное изображение:\n";
+						std::cout << "Полученное изображение:\n";//поправить
 						std::cout << A;
 						int m2 = menu_2();
 						if (m2 == 27) return 0;

@@ -19,7 +19,7 @@ bool& bin_image::operator ()( int str_index, int col_index) const {
 	return a;
 }
 
-bin_image operator+(const bin_image& image_1, const bin_image& image_2)
+bin_image operator+(const bin_image& image_1, const bin_image& image_2)//сложение изображений bool
 {
 	if (image_1.length != image_2.length || image_1.width != image_2.width) { throw "Addition error"; }
 	bin_image image(image_1.length, image_1.width);
@@ -31,7 +31,7 @@ bin_image operator+(const bin_image& image_1, const bin_image& image_2)
 	return image;
 }
 
-bin_image operator*(const bin_image& image_1, const bin_image& image_2)
+bin_image operator*(const bin_image& image_1, const bin_image& image_2)//умножение изображений bool
 {
 	if (image_1.length != image_2.length || image_1.width != image_2.width) { throw "Addition error"; }
 	bin_image image(image_1.length, image_1.width);
