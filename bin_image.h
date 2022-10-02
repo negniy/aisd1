@@ -37,6 +37,8 @@ private:
 	bool** data;
 	int length, width;
 public:
+	int get_length() const;
+	int get_width() const;
 	bin_image( int length = 10, int width = 10);
 	bool& operator ()( int str_index, int col_index) const;
 	bin_image& operator !();
