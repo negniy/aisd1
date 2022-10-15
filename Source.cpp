@@ -56,15 +56,6 @@ int menu_2()
 	}
 }
 
-int menu_3()
-{
-	std::cout << "Вернуться: Enter\nСоздать изображение еще раз: 1\nВыход из прог-мы: Esc\n";
-	while (true)
-	{
-		int key = get_key();
-		if ((key == 13) || (key == 27) || (key == 49)) return key;
-	}
-}
 
 bin_image create_image() {
 	std::cout << "\nВведите размеры изображения(длина, ширина)\n";
@@ -143,6 +134,7 @@ int main() {
 			}
 		}
 		while (true) {
+			std::cin.clear();
 			system("cls");
 			std::cout << A;
 			std::cout << "\nОкружность радиуса R=" << R << " с центром в точке О" << "(" << x << ";" << y << ")\n";
@@ -196,7 +188,7 @@ int main() {
 						std::cout << "Некорректные координаты центра введите еще раз (х,у)\n";
 						std::cin >> x >> y;
 						try {
-							create_circle(R, x, y, A);
+							create_circle(R, x, y, B);
 							break;
 						}
 						catch (const char* message) {
@@ -220,17 +212,9 @@ int main() {
 					while (true) {
 						system("cls");
 						std::cout << "Невозвожно сложить 2 изображения\n";
-						int m3 = menu_3();
+						int m3 = menu_2();
 						if (m3 == 27) return 0;
 						if (m3 == 13) break;
-						if (m3 == 49) {
-							B = create_image();
-							try {
-								bin_image C = A + B;
-								break;
-							}
-							catch (const char* message) { std::cout << message; }
-						}
 					}
 				}
 			}
@@ -278,17 +262,9 @@ int main() {
 					while (true) {
 						system("cls");
 						std::cout << "Невозвожно умножить 2 изображения\n";
-						int m3 = menu_3();
+						int m3 = menu_2();
 						if (m3 == 27) return 0;
 						if (m3 == 13) break;
-						if (m3 == 49) {
-							B = create_image();
-							try {
-								bin_image C = A * B;
-								break;
-							}
-							catch (const char* message) { std::cout << message; }
-						}
 					}
 				}
 			}
@@ -328,4 +304,3 @@ int main() {
 	}
     return 0;
 }
-///чимгпраишимшк
