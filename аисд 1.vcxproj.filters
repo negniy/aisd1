@@ -21,9 +21,15 @@
     <ClCompile Include="bin_image.cpp">
       <Filter>Исходные файлы</Filter>
     </ClCompile>
+    <ClCompile Include="error.cpp">
+      <Filter>Исходные файлы</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="bin_image.h">
+      <Filter>Файлы заголовков</Filter>
+    </ClInclude>
+    <ClInclude Include="error.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

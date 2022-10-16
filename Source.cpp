@@ -9,6 +9,7 @@
 #include <conio.h>
 #include <time.h>
 #include <iostream>
+#include "error.h"
 /*Класс бинарных изображений произвольного размера.
 Как минимум, предоставить:
 • конструктор с параметрами: размеры изображения;
@@ -65,8 +66,8 @@ bin_image create_image() {
 		bin_image A(length, width);
 		return A;
 	}
-	catch (const char* message) {
-		std::cout << message;
+	catch (error programm_error) {
+		programm_error.print();
 		while (true) {
 			std::cout << "\nВведите размеры изображения(длина, ширина)\n";
 			std::cin >> length >> width;
@@ -74,14 +75,15 @@ bin_image create_image() {
 				bin_image A(length, width);
 				return A;
 			}
-			catch (const char* message) {
-				std::cout << message;
+			catch (error programm_error) {
+				programm_error.print();
 			}
 		}
 	}
 }
 
 void create_circle(double radios, int x, int y, bin_image& A) {
+	if (radios<0){ throw error("Invalid radios value"); }
 	int center_x = A.get_length() / 2;
 	int center_y = A.get_width() / 2;
 	x = x + center_x;
@@ -96,7 +98,22 @@ void create_circle(double radios, int x, int y, bin_image& A) {
 			else{ item = false; }
 		}
 	}
-
+	for (int j = 0; j < A.get_width(); j++) { // проверка за выход за границы по вертикали
+		int i = -1;
+		double a = sqrt((x - i) * (x - i) + (y - j) * (y - j));
+		if (a <= radios) { throw error("Going beyond the boundaries of the image"); }
+		i = A.get_length();
+		a = sqrt((x - i) * (x - i) + (y - j) * (y - j));
+		if (a <= radios) { throw error("Going beyond the boundaries of the image"); }
+	}
+	for (int j = 0; j < A.get_length(); j++) { // проверка за выход за границы по горизонтали
+		int i = -1;
+		double a = sqrt((x - i) * (x - i) + (y - j) * (y - j));
+		if (a <= radios) { throw error("Going beyond the boundaries of the image"); }
+		i = A.get_width();
+		a = sqrt((x - i) * (x - i) + (y - j) * (y - j));
+		if (a <= radios) { throw error("Going beyond the boundaries of the image"); }
+	}
 }
 
 int main() {
@@ -111,25 +128,20 @@ int main() {
 		double R;
 		int x, y;
 		std::cin >> R >> x >> y;
-		while (R <= 0) {
-			std::cout << "Неверный радиус окружности, введите еще раз\n";
-			std::cin >> R;
-		}
-
 		try {
 			create_circle(R, x, y, A);
 		}
-		catch (const char* message) {
-			std::cout << message;
+		catch (error programm_error) {
+			programm_error.print();
 			while (true) {
-				std::cout << "Некорректные координаты центра введите еще раз (х,у)\n";
-				std::cin >> x >> y;
+				std::cout << "Некорректные координаты центра или радиус введите еще раз: R (х,у)\n";
+				std::cin >> R >> x >> y;
 				try {
 					create_circle(R, x, y, A);
 					break;
 				}
-				catch (const char* message) {
-					std::cout << message;
+				catch (error programm_error) {
+					programm_error.print();
 				}
 			}
 		}
@@ -175,24 +187,20 @@ int main() {
 				double R;
 				int x, y;
 				std::cin >> R >> x >> y;
-				while (R <= 0) {
-					std::cout << "Неверный радиус окружности, введите еще раз\n";
-					std::cin >> R;
-				}
 				try {
 					create_circle(R, x, y, B);
 				}
-				catch (const char* message) {
-					std::cout << message;
+				catch (error programm_error) {
+					programm_error.print();
 					while (true) {
-						std::cout << "Некорректные координаты центра введите еще раз (х,у)\n";
-						std::cin >> x >> y;
+						std::cout << "Некорректные координаты центра или радиус введите еще раз: R (х,у)\n";
+						std::cin >> R >> x >> y;
 						try {
 							create_circle(R, x, y, B);
 							break;
 						}
-						catch (const char* message) {
-							std::cout << message;
+						catch (error programm_error) {
+							programm_error.print();
 						}
 					}
 				}
@@ -207,8 +215,8 @@ int main() {
 						if (m2 == 13) break;
 					}
 				}
-				catch(const char* message){
-					std::cout << message;
+				catch (error programm_error) {
+					programm_error.print();
 					while (true) {
 						system("cls");
 						std::cout << "Невозвожно сложить 2 изображения\n";
@@ -225,24 +233,20 @@ int main() {
 				double R;
 				int x, y;
 				std::cin >> R >> x >> y;
-				while (R <= 0) {
-					std::cout << "Неверный радиус окружности, введите еще раз\n";
-					std::cin >> R;
-				}
 				try {
 					create_circle(R, x, y, B);
 				}
-				catch (const char* message) {
-					std::cout << message;
+				catch (error programm_error) {
+					programm_error.print();
 					while (true) {
-						std::cout << "Некорректные координаты центра введите еще раз (х,у)\n";
-						std::cin >> x >> y;
+						std::cout << "Некорректные координаты центра или радиус введите еще раз: R (х,у)\n";
+						std::cin >> R >> x >> y;
 						try {
-							create_circle(R, x, y, A);
+							create_circle(R, x, y, B);
 							break;
 						}
-						catch (const char* message) {
-							std::cout << message;
+						catch (error programm_error) {
+							programm_error.print();
 						}
 					}
 				}
@@ -257,8 +261,8 @@ int main() {
 						if (m2 == 13) break;
 					}
 				}
-				catch (const char* message) {
-					std::cout << message;
+				catch (error programm_error) {
+					programm_error.print();
 					while (true) {
 						system("cls");
 						std::cout << "Невозвожно умножить 2 изображения\n";

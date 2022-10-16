@@ -12,7 +12,7 @@ int bin_image::get_width() const
 
 bin_image::bin_image(int length, int width): length(length), width(width)
 {
-	if (length < 1 || width < 1) { throw "Incorrect length and width calculations"; }
+	if (length < 1 || width < 1) { throw error("Incorrect length and width calculations"); }
 	data = new bool*[length];
 	for (int i = 0; i < length; i++) {
 		data[i] = new bool[width];
@@ -23,15 +23,15 @@ bin_image::bin_image(int length, int width): length(length), width(width)
 }
 
 bool& bin_image::operator ()( int str_index, int col_index) const {
-	if (str_index < 0 || str_index >= length) { throw "Invalid str_index"; }
-	if (col_index < 0 || col_index >= width) { throw "Invalid col_index"; }
+	if (str_index < 0 || str_index >= length) { throw error("Invalid str_index"); }
+	if (col_index < 0 || col_index >= width) { throw error("Invalid col_index"); }
 	bool& a = data[col_index][str_index];
 	return a;
 }
 
 bin_image operator+(const bin_image& image_1, const bin_image& image_2)//сложение изображений bool
 {
-	if (image_1.length != image_2.length || image_1.width != image_2.width) { throw "Addition error"; }
+	if (image_1.length != image_2.length || image_1.width != image_2.width) { throw error("Addition error"); }
 	bin_image image(image_1.length, image_1.width);
 	for (int i = 0; i < image_1.length; i++) {
 		for (int j = 0; j < image_1.width; j++) {
@@ -43,7 +43,7 @@ bin_image operator+(const bin_image& image_1, const bin_image& image_2)//сложени
 
 bin_image operator*(const bin_image& image_1, const bin_image& image_2)//умножение изображений bool
 {
-	if (image_1.length != image_2.length || image_1.width != image_2.width) { throw "Addition error"; }
+	if (image_1.length != image_2.length || image_1.width != image_2.width) { throw error("Multiplication error"); }
 	bin_image image(image_1.length, image_1.width);
 	for (int i = 0; i < image_1.length; i++) {
 		for (int j = 0; j < image_1.width; j++) {
