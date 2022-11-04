@@ -32,10 +32,10 @@ class bin_image
 	friend std::ostream& operator <<(std::ostream& s, const bin_image& image);
 	friend bin_image operator *(const bin_image& image_1, const bin_image& image_2);
 	friend bin_image operator +(const bin_image& image_1, const bin_image& image_2);
-	friend bin_image operator *(bin_image image, bool a);
-	friend bin_image operator +(bin_image image, bool a);
-	friend bin_image operator *(bool a, bin_image image);
-	friend bin_image operator +(bool a ,bin_image image);
+	friend bin_image operator *(const bin_image& image, bool a);
+	friend bin_image operator +(const bin_image& image, bool a);
+	friend bin_image operator *(bool a, const bin_image& image);
+	friend bin_image operator +(bool a , const bin_image& image);
 private:
 	bool** data;
 	int length, width;

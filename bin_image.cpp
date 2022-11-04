@@ -16,16 +16,13 @@ bin_image::bin_image(int length, int width): length(length), width(width)
 	data = new bool*[length];
 	for (int i = 0; i < length; i++) {
 		data[i] = new bool[width];
-		for (int j = 0; j < width; j++) {
-			data[i][j] = false;
-		}
 	}
 }
 
 bool& bin_image::operator ()( int str_index, int col_index) const {
 	if (str_index < 0 || str_index >= length) { throw error("Invalid str_index"); }
 	if (col_index < 0 || col_index >= width) { throw error("Invalid col_index"); }
-	bool& a = data[col_index][str_index];
+	bool& a = data[str_index][col_index];
 	return a;
 }
 
@@ -53,7 +50,7 @@ bin_image operator*(const bin_image& image_1, const bin_image& image_2)//умножен
 	return image;
 }
 
-bin_image operator*(bin_image image, bool a)
+bin_image operator*(const bin_image& image, bool a)
 {
 	bin_image tmp(image.length, image.width);
 	for (int i = 0; i < image.length; i++) {
@@ -64,7 +61,7 @@ bin_image operator*(bin_image image, bool a)
 	return tmp;
 }
 
-bin_image operator+(bin_image image, bool a)
+bin_image operator+(const bin_image& image, bool a)
 {
 	bin_image tmp(image.length, image.width);
 	for (int i = 0; i < image.length; i++) {
@@ -75,7 +72,7 @@ bin_image operator+(bin_image image, bool a)
 	return tmp;
 }
 
-bin_image operator*(bool a, bin_image image)
+bin_image operator*(bool a, const bin_image& image)
 {
 	bin_image tmp(image.length, image.width);
 	for (int i = 0; i < image.length; i++) {
@@ -86,7 +83,7 @@ bin_image operator*(bool a, bin_image image)
 	return tmp;
 }
 
-bin_image operator+(bool a, bin_image image)
+bin_image operator+(bool a, const bin_image& image)
 {
 	bin_image tmp(image.length, image.width);
 	for (int i = 0; i < image.length; i++) {
@@ -116,8 +113,8 @@ double bin_image::fill_factor() const {
 	double count_1 = 0;
 	for (int i = 0; i < length; i++) {
 		for (int j = 0; j < width; j++) {
-			if (data[i][j] == 0) { count_0 += 1; }
-			if (data[i][j] == 1) { count_1 += 1; }
+			if (data[i][j] == false) { count_0 += 1; }
+			if (data[i][j] == true) { count_1 += 1; }
 		}
 	}
 	return (double)(count_1) / (count_0 + count_1);

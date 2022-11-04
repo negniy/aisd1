@@ -10,6 +10,7 @@
 #include <time.h>
 #include <iostream>
 #include "error.h"
+
 /*Класс бинарных изображений произвольного размера.
 Как минимум, предоставить:
 • конструктор с параметрами: размеры изображения;
@@ -57,11 +58,62 @@ int menu_2()
 	}
 }
 
+int check() {
+	int number = 0;
+	while (number <= 0)
+	{
+		while (!(std::cin >> number) || (std::cin.peek() != '\n'))
+		{
+			std::cin.clear();
+			while (std::cin.get() != '\n');
+			std::cout << "Некорректное значение, повторите ввод\n";
+		}
+		if (number <= 0) std::cout << "Некорректное значение, повторите ввод\n";
+
+	}
+
+	return number;
+}
+
+bool check_bool() {
+	bool number = FALSE;
+	while (number <= 0)
+	{
+		while (!(std::cin >> number) || (std::cin.peek() != '\n'))
+		{
+			std::cin.clear();
+			while (std::cin.get() != '\n');
+			std::cout << "Некорректное значение, повторите ввод\n";
+		}
+		if (number <= 0) std::cout << "Некорректное значение, повторите ввод\n";
+
+	}
+
+	return number;
+}
+
+double check_double() {
+	double number = 0;
+	while (number <= 0)
+	{
+		while (!(std::cin >> number) || (std::cin.peek() != '\n'))
+		{
+			std::cin.clear();
+			while (std::cin.get() != '\n');
+			std::cout << "Некорректное значение, повторите ввод\n";
+		}
+		if (number <= 0) std::cout << "Некорректное значение, повторите ввод\n";
+
+	}
+
+	return number;
+}
 
 bin_image create_image() {
 	std::cout << "\nВведите размеры изображения(длина, ширина)\n";
 	int length, width;
-	std::cin >> length >> width;
+	length = check();
+	width= check();
 	try {
 		bin_image A(length, width);
 		return A;
@@ -70,7 +122,8 @@ bin_image create_image() {
 		programm_error.print();
 		while (true) {
 			std::cout << "\nВведите размеры изображения(длина, ширина)\n";
-			std::cin >> length >> width;
+			length = check();
+			width = check();
 			try {
 				bin_image A(length, width);
 				return A;
@@ -84,28 +137,15 @@ bin_image create_image() {
 
 void create_circle(double radios, int x, int y, bin_image& A) {
 	if (radios<0){ throw error("Invalid radios value"); }
-	int center_x = A.get_length() / 2;
-	int center_y = A.get_width() / 2;
-	x = x + center_x;
-	y = center_y - y;
-	for (int i = 0; i < A.get_length(); i++) {
-		for (int j = 0; j <A.get_width(); j++) {
-			bool& item = A(i, j);
-			double a = sqrt((x - i)*(x - i) + (y - j)*(y - j));
-			if (a <= radios) {
-				item=true;
-			}
-			else{ item = false; }
-		}
-	}
 	for (int j = 0; j < A.get_width(); j++) { // проверка за выход за границы по вертикали
-		int i = -1;
-		double a = sqrt((x - i) * (x - i) + (y - j) * (y - j));
-		if (a <= radios) { throw error("Going beyond the boundaries of the image"); }
-		i = A.get_length();
-		a = sqrt((x - i) * (x - i) + (y - j) * (y - j));
-		if (a <= radios) { throw error("Going beyond the boundaries of the image"); }
+			int i = -1;
+			double a = sqrt((x - i) * (x - i) + (y - j) * (y - j));
+			if (a <= radios) { throw error("Going beyond the boundaries of the image"); }
+			i = A.get_length();
+			a = sqrt((x - i) * (x - i) + (y - j) * (y - j));
+			if (a <= radios) { throw error("Going beyond the boundaries of the image"); }
 	}
+
 	for (int j = 0; j < A.get_length(); j++) { // проверка за выход за границы по горизонтали
 		int i = -1;
 		double a = sqrt((x - i) * (x - i) + (y - j) * (y - j));
@@ -114,6 +154,22 @@ void create_circle(double radios, int x, int y, bin_image& A) {
 		a = sqrt((x - i) * (x - i) + (y - j) * (y - j));
 		if (a <= radios) { throw error("Going beyond the boundaries of the image"); }
 	}
+
+	int center_x = A.get_length() / 2;
+	int center_y = A.get_width() / 2;
+	x = x + center_x;
+	y = center_y - y;
+	for (int i = 0; i < A.get_length(); i++) {
+		for (int j = 0; j <A.get_width(); j++) {
+			bool& item = A(i, j);
+			double a = sqrt((y - i)*(y - i) + (x - j)*(x - j));
+			if (a <= radios) {
+				item=true;
+			}
+			else{ item = false; }
+		}
+	}
+	if (A.fill_factor() == 0) throw error("Empty image");
 }
 
 int main() {
@@ -125,8 +181,8 @@ int main() {
 		std::cout << "\nЭто программа по работе с бинарными изображениями окружности\n";
 		bin_image A = create_image();
 		std::cout << "\nВведите радиус и координаты центра(х,у) окружности\n";
-		double R;
-		int x, y;
+		double R = check_double();
+		int x = check(); int y = check();
 		std::cin >> R >> x >> y;
 		try {
 			create_circle(R, x, y, A);
@@ -135,7 +191,8 @@ int main() {
 			programm_error.print();
 			while (true) {
 				std::cout << "Некорректные координаты центра или радиус введите еще раз: R (х,у)\n";
-				std::cin >> R >> x >> y;
+				R = check_double();
+				x = check(); y = check();
 				try {
 					create_circle(R, x, y, A);
 					break;
@@ -184,19 +241,19 @@ int main() {
 			if (m1 == 49) {
 				bin_image B = create_image();
 				std::cout << "\nВведите радиус и координаты центра(х,у) окружности\n";
-				double R;
-				int x, y;
-				std::cin >> R >> x >> y;
+				double R2 = check_double();
+				int x2 = check(); int y2 = check();
 				try {
-					create_circle(R, x, y, B);
+					create_circle(R2, x2, y2, B);
 				}
 				catch (error programm_error) {
 					programm_error.print();
 					while (true) {
 						std::cout << "Некорректные координаты центра или радиус введите еще раз: R (х,у)\n";
-						std::cin >> R >> x >> y;
+						R2 = check_double();
+						x2 = check(); y2 = check();
 						try {
-							create_circle(R, x, y, B);
+							create_circle(R2, x2, y2, B);
 							break;
 						}
 						catch (error programm_error) {
@@ -230,19 +287,19 @@ int main() {
 			if (m1 == 50) {
 				bin_image B = create_image();
 				std::cout << "\nВведите радиус и координаты центра(х,у) окружности\n";
-				double R;
-				int x, y;
-				std::cin >> R >> x >> y;
+				double R2 = check_double();
+				int x2 = check(); int y2 = check();
 				try {
-					create_circle(R, x, y, B);
+					create_circle(R2, x2, y2, B);
 				}
 				catch (error programm_error) {
 					programm_error.print();
 					while (true) {
 						std::cout << "Некорректные координаты центра или радиус введите еще раз: R (х,у)\n";
-						std::cin >> R >> x >> y;
+						R2 = check_double();
+						x2 = check(); y2 = check();
 						try {
-							create_circle(R, x, y, B);
+							create_circle(R2, x2, y2, B);
 							break;
 						}
 						catch (error programm_error) {
@@ -275,9 +332,8 @@ int main() {
 // сложить с булевским
 			if (m1 == 51) {
 				system("cls");
-				std::cout << "Введите булевское значение:(0/1)\n";
-				bool n;
-				std::cin >> n;
+				std::cout << "Введите булевское значение:\n";
+				bool n = check_bool();
 				bin_image tmp = A + n;
 				while (true) {
 					system("cls");
@@ -291,9 +347,8 @@ int main() {
 // умножить на булевское
 			if (m1 == 52) {
 				system("cls");
-				std::cout << "Введите булевское значение:(0/1)\n";
-				bool n;
-				std::cin >> n;
+				std::cout << "Введите булевское значение:\n";
+				bool n = check_bool();
 				bin_image tmp = n * A;
 				while (true) {
 					system("cls");
